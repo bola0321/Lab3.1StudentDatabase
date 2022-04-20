@@ -13,38 +13,60 @@ public class studentDatabase {
 				"Sujuk", "Sushi", "Tacos", "Bulgogi" };
 		Scanner scnr = new Scanner(System.in);
 		int userEntryName;
-		String whatElse;
+		String whatElseInfo;
+		boolean whichQuest = false;
 		
 		System.out.print("Welcome to our Java class. Which student would you like to learn more about? (enter a number 1-10): ");
-		
+		//get student number from user
 		userEntryName = scnr.nextInt();
+		//flush the new line leftover from hitting enter from the nextInt >:[
+		scnr.nextLine();
 		
-			System.out.println("That student does not exist. Please try again. (enter a number between 1- 10)");
-		
-		
-		System.out.println();
-		getFromArray(studentNames, userEntryName);
-		
+		//print initial student info
 		getToKnowStudent(studentNames, userEntryName);
+		
 		System.out.print(" (enter either \"hometown\" or \"favorite food\"): " );
-		whatElse = scnr.nextLine();
+		whatElseInfo = scnr.nextLine().toLowerCase();
 		
-		System.out.println(whatElse);
+		//System.out.println(whatElse);
 		
+		if(whatElseInfo.equals("hometown")) {
+			whichQuest = false;
+			System.out.print("\n"+ firstName(studentNames, userEntryName) +" is from " + getFromArray(hometown, userEntryName) );
+			
+		}else if (whatElseInfo.equals("favorite food")) {
+			whichQuest = true;
+			System.out.print("\n"+ firstName(studentNames, userEntryName) + "'s favorite food is " + getFromArray(favoriteFood, userEntryName));
+		}
 		
+		System.out.print(". Would you like to know more? (enter yes or no): ");
+		String yesNo = scnr.next().toLowerCase();
 		
-		
-		//getFromArray(hometown, userEntryName);
-		
-		//getFromArray(favoriteFood, userEntryName);
+		if(yesNo.equals("yes")) {
+			if (whichQuest == false) {
+				System.out.print("\n"+ firstName(studentNames, userEntryName) + "'s favorite food is " + getFromArray(favoriteFood, userEntryName)+ ". ");
+			}else if (whichQuest == true) {
+				System.out.print("\n"+ firstName(studentNames, userEntryName) +" is from " + getFromArray(hometown, userEntryName)+". " );				
+			}
+		}else if (yesNo.equals("no")) {
+			
+		}
+		System.out.println("\n" + "Thank you for using the Student Database!");
 		
 		
 	}
-	//I corrected the user entry
-	public static void getFromArray (String[] arr, int x) {
+	
+	public static String firstName(String[]arr, int x) {
+		int correctedEntry = x - 1;
+		String name = arr[correctedEntry];
+		String firstName = name.substring(0, name.indexOf(" "));
+		return firstName;
+	}
+	//I corrected the user entry and return the desire info from array
+	public static String getFromArray (String[] arr, int x) {
 		int correctedEntry = x-1;
 		String info = arr[correctedEntry];
-		System.out.println(info);
+		return info;
 	}
 	//Student 10 is Kim Driscoll.  What would you like to know about Kim? (enter either “hometown” or “favorite food”)
 	public static void getToKnowStudent(String[]arr, int x) {
@@ -54,7 +76,7 @@ public class studentDatabase {
 		if (getName.contains(" ")){
 			String firstName = getName.substring(0, getName.indexOf(" ") );
 			
-		System.out.print("Student " + x + " is " + getName + ". What would you like to know about " + firstName + "?");
+		System.out.print("\n" + "Student " + x + " is " + getName + ". What would you like to know about " + firstName + "?");
 		}
 	}
 }
